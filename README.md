@@ -69,7 +69,10 @@ This script is written in **Python 3.x** and requires **no external libraries** 
    - The files should be placed in the same directory as the script.
 
 3. **Run the Script**:
-   Run the script using Python:
+   - Download the `Log_Parser.py` file.
+   - Ensure the lookup table (CSV format) and flow log (plain text format) are available in the same directory as the script.
+   - Open a terminal or command prompt in the directory containing the script.
+   - Run the following command:
    ```bash
    python Log_Parser.py
    ```
@@ -78,6 +81,11 @@ This script is written in **Python 3.x** and requires **no external libraries** 
    - The script will generate two output files:
      - `output.txt`: Contains the counts for tags and port/protocol combinations.
      - `process_flow_logs.log`: Captures the logs and process details.
+
+5. You can customize the inputs by modifying the call in the script:
+```python
+log_parser(lookup_file='lookup_table.csv', flow_log_file='flow_log.log', output_file='output.txt')
+```
 
 ### Output File Details:
 
@@ -99,6 +107,32 @@ This script is written in **Python 3.x** and requires **no external libraries** 
     110,tcp,1
     993,tcp,1
     ```
+---
+
+## Tests Performed
+
+To ensure the robustness of the script, the following tests were conducted:
+
+1. **Basic Functionality Test**:
+   - Provided a small sample of flow log entries and lookup table mappings to verify that the script correctly tags entries and counts tags and port/protocol combinations.
+
+2. **Large File Test**:
+   - Simulated a large flow log file (10+ MB) and a lookup table with more than 10,000 entries. The script performed efficiently without memory issues, and outputs were generated as expected.
+
+3. **Invalid Data Test**:
+   - Tested with invalid entries (e.g., missing fields, invalid protocols) to verify the script's error-handling mechanism. The logging system appropriately flagged issues.
+
+4. **Edge Cases**:
+   - Tested uncommon protocols and entries with unknown ports or protocols to ensure that these are tagged as `Untagged` and handled gracefully.
+
+---
+
+## Other Analysis
+
+- **Scalability**: The script was designed with scalability in mind, capable of processing large log files and lookup tables without significant performance degradation.
+- **Error Handling**: Through the use of a logging system, the script ensures that errors such as file-not-found or invalid data formats are caught and logged without crashing the program.
+- **Dynamic Protocol Support**: Instead of hardcoding protocols, the script dynamically resolves protocol numbers, making it flexible for future protocols.
+- **Modularity**: Each major step (loading lookup table, processing flow logs, and writing output) is encapsulated in separate functions for easier debugging and maintenance.
 
 ---
 
